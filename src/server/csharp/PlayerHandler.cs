@@ -12,7 +12,7 @@ namespace CopsAndCrimes_AltVGameserver
         [ScriptEvent(ScriptEventType.WeaponDamage)]
         public void OnPlayerDamageAsync(IPlayer attacker, IEntity target, uint weapon, ushort damage, Position offset, BodyPart bodyPart)
         {
-            attacker.AddHitmarker(damage.ToString(), target.Position);
+            attacker.Emit("Hitmarker:Add", damage.ToString(), target.Position);
         }
     }
 }

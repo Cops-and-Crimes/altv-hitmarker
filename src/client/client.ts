@@ -25,13 +25,36 @@ const output = new alt.AudioOutputFrontend();
 const audio = new alt.Audio('./assets/hitmarker_sound.mp3', audioVolume);
 audio.addOutput(output);
 
+function getRandomNumber(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomBoolean(): boolean {
+    return Math.random() < 0.5;
+}
+
+function generateRandomValue(): number {
+    let randomNumber = getRandomNumber(0, 4);
+    const isNegative = getRandomBoolean();
+
+    if (isNegative) {
+        randomNumber = -randomNumber;
+    }
+
+    return randomNumber * 0.1;
+}
+
 alt.onServer('Hitmarker:Add', AddHitmarker);
-function AddHitmarker(damage: string, x: number, y: number, z: number) {
+function AddHitmarker(damage: string, position: alt.Vector3) {
+    let xOffset = generateRandomValue();
+    let yOffset = generateRandomValue();
+    let zOffset = generateRandomValue();
+
     hitmarkerSet.add({
         damage: damage,
-        x: x,
-        y: y,
-        z: z,
+        x: position.x + xOffset,
+        y: position.y + yOffset,
+        z: position.z + zOffset,
         CreatedAt: Date.now(),
     });
     if (audio.playing) {
